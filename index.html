@@ -230,7 +230,7 @@
             <div class="producto">
               <img alt="Lipocarnit" src="img/product.png" />
             </div>
-            <form action="thanks.php" class="form" method="post">
+            <form id="order_form" class="form" method="post">
               <div class="black_txt">-50% Special offer</div>
               <div class="discount">
                 <span class="old_p">₦ 97,800</span> <span><br />₦ 48,900</span>
@@ -238,16 +238,25 @@
               <p>ONLY UNTIL THE END OF THE DAY!</p>
               <div class="form_input">
                 <input
-                  name="name"
-                  placeholder="Name:"
+                  name="entry.1667169088"
+                  placeholder="Email Address:"
                   type="text"
                   required=""
+                  id="entry.1667169088"
                 />
                 <input
-                  name="phone"
+                  name="entry.1971247087"
                   placeholder="Phone number:"
                   type="tel"
                   required=""
+                  id="entry.1971247087"
+                />
+                <input
+                  name="entry.568403844"
+                  placeholder="Full Name:"
+                  type="tel"
+                  required=""
+                  id="entry.568403844"
                 />
                 <input type="hidden" name="sid5" value="hbavcshhm5m" />
                 <button class="btn" type="submit">order now</button>
@@ -286,6 +295,47 @@
     ></iframe>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
+      // 1. Get the form element
+      const form = document.getElementById("order_form");
+      const API_ENDPOINT =
+        "https://docs.google.com/forms/d/e/1FAIpQLSdh_RpQZszT0ZP4ePsWUjh13LdNgdIprPrQQW3LrcKjcsOMDg/formResponse";
+
+      // 2. Attach an event listener to handle submission
+      form.addEventListener("submit", function (event) {
+        // Stop the default browser submission (which would reload the page)
+        event.preventDefault();
+
+        // 3. Collect form data
+        const formData = new FormData(form);
+        // console.log(formData.getAll("entry.921454807"));
+
+        // 4. Send the POST request using fetch
+        fetch(API_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors", // Use 'no-cors' if the API does not support CORS
+          // Most APIs require JSON data, so we set the Content-Type header
+          // Convert the JavaScript object into a JSON string
+          body: formData,
+        })
+          .then((response) => {
+            // Check if the response was successful (HTTP status 200-299)
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the response body as JSON
+          })
+          .then((responseData) => {
+            // Handle successful API response (e.g., show a 'Thank You' message)
+            console.log("API Success:", responseData);
+            alert("Data successfully sent!");
+          })
+          .catch((error) => {
+            // Handle errors (network, API server, CORS)
+            console.error("API Error:", error);
+            alert("There was an error sending the data.");
+          });
+      });
+
       $(document).ready(function () {
         $("button[href*=#]").on("click", function (e) {
           var anchor = $(this);
