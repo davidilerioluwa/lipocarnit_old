@@ -936,6 +936,7 @@ button {
   gap: 15px;
   position: fixed;
   max-width: 500px;
+  margin: 20px;
 }
 .tick {
 }
