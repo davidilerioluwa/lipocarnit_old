@@ -263,6 +263,18 @@
               </div>
             </form>
           </div>
+          <div class="sucessful_order_container" id="sucessful_order_container">
+            <div class="sucessful_order">
+              <img src="img/done.png" class="tick" />
+              <button class="close_button" id="close_success_message">
+                ❌
+              </button>
+              <div class="sucessful_message">
+                Your Order has been sucessful, you will be contacted via the
+                provided email address/Phone Number for further directives
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="container">
@@ -295,45 +307,61 @@
     ></iframe>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-      // 1. Get the form element
+      // 1. Get the form element and success container
       const form = document.getElementById("order_form");
+      const successContainer = document.getElementById(
+        "sucessful_order_container"
+      );
+      // Ensure you have added the 'id="close_success_message"' to your close button HTML
+      const closeButton = document.getElementById("close_success_message");
+
       const API_ENDPOINT =
         "https://docs.google.com/forms/d/e/1FAIpQLSdh_RpQZszT0ZP4ePsWUjh13LdNgdIprPrQQW3LrcKjcsOMDg/formResponse";
 
-      // 2. Attach an event listener to handle submission
+      // **Initial State: Hide the success container**
+      successContainer.style.display = "none";
+
+      // 2. Attach an event listener to handle form submission
       form.addEventListener("submit", function (event) {
-        // Stop the default browser submission (which would reload the page)
         event.preventDefault();
 
         // 3. Collect form data
         const formData = new FormData(form);
-        // console.log(formData.getAll("entry.921454807"));
 
         // 4. Send the POST request using fetch
         fetch(API_ENDPOINT, {
           method: "POST",
-          mode: "no-cors", // Use 'no-cors' if the API does not support CORS
-          // Most APIs require JSON data, so we set the Content-Type header
-          // Convert the JavaScript object into a JSON string
+          mode: "no-cors",
           body: formData,
         })
-          .then((response) => {
-            // Check if the response was successful (HTTP status 200-299)
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json(); // Parse the response body as JSON
-          })
-          .then((responseData) => {
-            // Handle successful API response (e.g., show a 'Thank You' message)
-            console.log("API Success:", responseData);
-            alert("Data successfully sent!");
+          .then(() => {
+            // --- Success or Completion (Promise fulfilled) ---
+            console.log("Form data sent successfully (using no-cors mode).");
+
+            // **ACTION: Show success message and reset form**
+            successContainer.style.display = "flex"; // Or 'block'
+            form.reset();
           })
           .catch((error) => {
-            // Handle errors (network, API server, CORS)
+            // --- Network Error (Promise rejected) ---
+            console.error(
+              "Fetch Error: A network error occurred, but showing success message to user.",
+              error
+            );
+
+            // **ACTION: STILL show success message and reset form**
+            // This fulfills the requirement to show the success message regardless of fetch status.
+            successContainer.style.display = "flex"; // Or 'block'
+            form.reset();
           });
       });
 
+      // **CLOSE BUTTON FUNCTIONALITY: Hide the success container**
+      closeButton.addEventListener("click", function () {
+        successContainer.style.display = "none";
+      });
+
+      // JQuery for smooth scrolling (existing functionality)
       $(document).ready(function () {
         $("button[href*=#]").on("click", function (e) {
           var anchor = $(this);
