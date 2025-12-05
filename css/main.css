@@ -465,10 +465,12 @@ button {
 .footer_links {
   font-size: 16px;
   text-align: center;
-  margin: 10px 100px 10px 100px;
+  margin: 10px 200px 10px 100px;
   display: flex;
   flex-direction: column;
   gap: 3px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 .footer_links a {
   display: inline-block;
