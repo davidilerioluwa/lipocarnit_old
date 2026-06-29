@@ -56,6 +56,7 @@ export default async function handler(req, res) {
         };
 
         // Send POST request to Meta Graph API
+        /*
         const response = await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`, {
             method: 'POST',
             headers: {
@@ -70,8 +71,10 @@ export default async function handler(req, res) {
             console.error('Meta CAPI Error:', data);
             return res.status(response.status).json({ error: 'Failed to send event to Meta', details: data });
         }
+        */
 
-        return res.status(200).json({ success: true, metaResponse: data });
+        console.log("HASHED USER DATA:", userData);
+        return res.status(200).json({ success: true, hashedData: userData, metaResponse: "SIMULATED_SUCCESS" });
     } catch (error) {
         console.error('Error in CAPI handler:', error);
         return res.status(500).json({ error: 'Internal Server Error' });

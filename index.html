@@ -356,10 +356,22 @@
             firstName: firstName,
             lastName: lastName
           })
-        }).catch(err => console.error("Error sending CAPI request:", err));
+        }).then(res => res.json())
+          .then(data => {
+            console.log("CAPI Response (Simulated):", data);
+            // **ACTION: Show success message and reset form**
+            successContainer.style.display = "flex"; // Or 'block'
+            form.reset();
+          })
+          .catch(err => {
+            console.error("Error sending CAPI request:", err);
+            successContainer.style.display = "flex"; // Or 'block'
+            form.reset();
+          });
         // ---------------------------------------------------
 
         // 4. Send the POST request using fetch
+        /*
         fetch(API_ENDPOINT, {
           method: "POST",
           mode: "no-cors",
@@ -385,6 +397,7 @@
             successContainer.style.display = "flex"; // Or 'block'
             form.reset();
           });
+        */
       });
 
       // **CLOSE BUTTON FUNCTIONALITY: Hide the success container**
