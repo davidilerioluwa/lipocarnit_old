@@ -258,24 +258,6 @@
                   required=""
                   id="entry.568403844"
                 />
-                <input
-                  name="city"
-                  placeholder="City:"
-                  type="text"
-                  id="city"
-                />
-                <input
-                  name="state"
-                  placeholder="State (e.g. Lagos):"
-                  type="text"
-                  id="state"
-                />
-                <input
-                  name="country"
-                  placeholder="Country (e.g. NG):"
-                  type="text"
-                  id="country"
-                />
                 <input type="hidden" name="sid5" value="hbavcshhm5m" />
                 <button class="btn" type="submit">order now</button>
               </div>
@@ -372,10 +354,7 @@
             email: formData.get("entry.1667169088"),
             phone: formData.get("entry.1971247087"),
             firstName: firstName,
-            lastName: lastName,
-            city: formData.get("city"),
-            state: formData.get("state"),
-            country: formData.get("country")
+            lastName: lastName
           })
         }).catch(err => console.error("Error sending CAPI request:", err));
         // ---------------------------------------------------
