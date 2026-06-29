@@ -19,10 +19,7 @@ export default async function handler(req, res) {
             email,
             phone,
             firstName,
-            lastName,
-            city,
-            state,
-            country
+            lastName
         } = req.body;
 
         const PIXEL_ID = '27746921138265225';
@@ -44,9 +41,6 @@ export default async function handler(req, res) {
         if (phone) userData.ph = [hashData(phone)];
         if (firstName) userData.fn = [hashData(firstName)];
         if (lastName) userData.ln = [hashData(lastName)];
-        if (city) userData.ct = [hashData(city)];
-        if (state) userData.st = [hashData(state)]; // Meta recommends 2-letter state code
-        if (country) userData.country = [hashData(country)]; // Meta recommends 2-letter country code
 
         // Construct Meta Event Payload
         const payload = {
