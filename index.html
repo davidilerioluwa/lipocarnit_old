@@ -258,6 +258,24 @@
                   required=""
                   id="entry.568403844"
                 />
+                <input
+                  name="city"
+                  placeholder="City:"
+                  type="text"
+                  id="city"
+                />
+                <input
+                  name="state"
+                  placeholder="State (e.g. Lagos):"
+                  type="text"
+                  id="state"
+                />
+                <input
+                  name="country"
+                  placeholder="Country (e.g. NG):"
+                  type="text"
+                  id="country"
+                />
                 <input type="hidden" name="sid5" value="hbavcshhm5m" />
                 <button class="btn" type="submit">order now</button>
               </div>
@@ -327,6 +345,40 @@
 
         // 3. Collect form data
         const formData = new FormData(form);
+
+        // --- META CONVERSIONS API & PIXEL DEDUPLICATION ---
+        // Generate a unique event ID for Meta deduplication
+        const eventId = 'lead_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+        
+        // Fire the browser Pixel with the event ID
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', {}, { eventID: eventId });
+        }
+        
+        // Parse the Full Name into First and Last Name (approximation)
+        const fullName = formData.get("entry.568403844") || "";
+        const nameParts = fullName.trim().split(" ");
+        const firstName = nameParts[0] || "";
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+
+        // Send data to our Vercel Serverless Function (Meta CAPI)
+        fetch('/api/capi', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            eventId: eventId,
+            email: formData.get("entry.1667169088"),
+            phone: formData.get("entry.1971247087"),
+            firstName: firstName,
+            lastName: lastName,
+            city: formData.get("city"),
+            state: formData.get("state"),
+            country: formData.get("country")
+          })
+        }).catch(err => console.error("Error sending CAPI request:", err));
+        // ---------------------------------------------------
 
         // 4. Send the POST request using fetch
         fetch(API_ENDPOINT, {
