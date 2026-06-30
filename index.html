@@ -330,42 +330,35 @@
           firstName: firstName,
           lastName: lastName
         })
-      }).then(() => {
-        successContainer.style.display = "flex";
-        form.reset();
-      }).catch(err => {
-        console.error("Error sending CAPI request:", err);
-        successContainer.style.display = "flex";
-        form.reset();
-      });
+      }).catch(err => console.error("Error sending CAPI request:", err));
       // ---------------------------------------------------
 
       // 4. Send the POST request using fetch
-      // fetch(API_ENDPOINT, {
-      //   method: "POST",
-      //   mode: "no-cors",
-      //   body: formData,
-      // })
-      //   .then(() => {
-      //     // --- Success or Completion (Promise fulfilled) ---
-      //     console.log("Form data sent successfully (using no-cors mode).");
+      fetch(API_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
+      })
+        .then(() => {
+          // --- Success or Completion (Promise fulfilled) ---
+          console.log("Form data sent successfully (using no-cors mode).");
 
-      //     // **ACTION: Show success message and reset form**
-      //     successContainer.style.display = "flex"; // Or 'block'
-      //     form.reset();
-      //   })
-      //   .catch((error) => {
-      //     // --- Network Error (Promise rejected) ---
-      //     console.error(
-      //       "Fetch Error: A network error occurred, but showing success message to user.",
-      //       error
-      //     );
+          // **ACTION: Show success message and reset form**
+          successContainer.style.display = "flex"; // Or 'block'
+          form.reset();
+        })
+        .catch((error) => {
+          // --- Network Error (Promise rejected) ---
+          console.error(
+            "Fetch Error: A network error occurred, but showing success message to user.",
+            error
+          );
 
-      //     // **ACTION: STILL show success message and reset form**
-      //     // This fulfills the requirement to show the success message regardless of fetch status.
-      //     successContainer.style.display = "flex"; // Or 'block'
-      //     form.reset();
-      //   });
+          // **ACTION: STILL show success message and reset form**
+          // This fulfills the requirement to show the success message regardless of fetch status.
+          successContainer.style.display = "flex"; // Or 'block'
+          form.reset();
+        });
     });
 
     // **CLOSE BUTTON FUNCTIONALITY: Hide the success container**
