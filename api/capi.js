@@ -49,12 +49,12 @@ export default async function handler(req, res) {
                     event_name: 'Lead',
                     event_time: Math.floor(Date.now() / 1000), // Current time in Unix seconds
                     action_source: 'website',
-                    event_id: eventId,
+                    event_id: 'TEST93833',
                     user_data: userData,
                 }
             ]
         };
-
+        console.log(payload)
         // Send POST request to Meta Graph API
         const response = await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`, {
             method: 'POST',
@@ -65,7 +65,8 @@ export default async function handler(req, res) {
         });
 
         const data = await response.json();
-
+        console.log("response", response)
+        console.log("data", data)
         if (!response.ok) {
             console.error('Meta CAPI Error:', data);
             return res.status(response.status).json({ error: 'Failed to send event to Meta', details: data });
