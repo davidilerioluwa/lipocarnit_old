@@ -52,7 +52,8 @@ export default async function handler(req, res) {
                     event_id: eventId,
                     user_data: userData,
                 }
-            ]
+            ],
+            test_event_code: 'TEST98333'
         };
         console.log(payload)
         // Send POST request to Meta Graph API
