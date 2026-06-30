@@ -54,6 +54,7 @@ export default async function handler(req, res) {
                 }
             ]
         };
+        console.log(payload)
         // Send POST request to Meta Graph API
         const response = await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`, {
             method: 'POST',
